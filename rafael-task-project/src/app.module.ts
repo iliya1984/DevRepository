@@ -28,7 +28,7 @@ import mongoose from 'mongoose';
     },
     {
       provide: 'StudentDocumentModel',
-      useFactory: (connection: Connection) => connection.model('rafael-task-db', StudentSchema),
+      useFactory: (connection: Connection) => connection.model('students', StudentSchema),
       inject: ['DATABASE_CONNECTION'],
     },
   ],
