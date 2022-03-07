@@ -9,35 +9,13 @@ import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getStudent
 @Dependencies(CommandBus)
 export class StudentController 
 {
-  private commandBus: CommandBus;
-
-  constructor(@Inject('IStudentService')  private readonly studentService: IStudentService, commandBus : CommandBus) 
+  constructor(@Inject('IStudentService')  private readonly studentService: IStudentService) 
   {
-    if(commandBus == undefined)
-    {
-      console.log('controller command bus undefined');
-    }
-
-    this.commandBus = commandBus;
   }
 
   @Get("students")
   async getStudentsByUniversityId(universityId : string): Promise<GetStudentsByUniversityIdResponse> 
   {
-    //  var query = new GetStudentsByUniversityIdQuery();
-    //  query.universityId = universityId;
-
-    // if(this.commandBus == undefined)
-    // {
-    //   console.log('command bus undefined');
-    // }
-
-    //  var result = await this.commandBus.execute(query);
-
-    //  var response = new GetStudentsByUniversityIdResponse();
-    //  response.students = result;
-    //  return response;
-
     return await this.studentService.getStudentsByUniversityId(universityId);
   }
 }

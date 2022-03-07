@@ -23,29 +23,10 @@ export class StudentService implements IStudentService
 
   async getStudentsByUniversityId(universityId : string): Promise<GetStudentsByUniversityIdResponse>
   {
-       var query = new GetStudentsByUniversityIdQuery();
-     query.universityId = universityId;
+    var query = new GetStudentsByUniversityIdQuery();
+    query.universityId = universityId;
 
-    if(this.commandBus == undefined)
-    {
-      console.log('service command bus undefined');
-    }
-
-    var result = await this.commandBus.execute(query);
-     var students = <Array<Student>>result;
-
-      var response = new GetStudentsByUniversityIdResponse();
-
-      for(var i = 0; i < students.length; i++)
-      {
-        var model = new StudentItemModel();
-        model.firstName = students[i].firstName;
-        model.lastName = students[i].lastName;
-
-        response.students.push(model);
-      }
-
-     return response;
+    return await this.commandBus.execute(query);
   }
   
   getHello(): string {
