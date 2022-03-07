@@ -3,10 +3,10 @@ import { AppController } from './controllers/app.controller';
 import { StudentController } from './controllers/student.controller';
 import { AppService } from './services/app.service';
 import { StudentService } from './services/students/student.service';
-import { IStudentService } from './services/students/istudent.service';
+import { IStudentService } from './services/students/student.service.interface';
 import { CqrsModule } from '@nestjs/cqrs';
-import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getStudentsByUniversityIdQueryHandler';
-import { StudentRepository } from './repositories/students/studentRepository';
+import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getStudentsByUniversityIdQuery.handler';
+import { StudentRepository } from './repositories/students/student.repository';
 
 @Module({
   imports: [CqrsModule],

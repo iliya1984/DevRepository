@@ -1,5 +1,5 @@
 import { Student } from "src/entities/student";
-import { IStudentRepository } from "./studentRepository.interface";
+import { IStudentRepository } from "./student.repository.interface";
 
 export class StudentRepository implements IStudentRepository
 {

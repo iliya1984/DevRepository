@@ -4,7 +4,7 @@ import { Student } from 'src/entities/student';
 import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getStudentsByUniversityIdQuery';
 import { GetStudentsByUniversityIdResponse } from 'src/request-response/students/getStudentsByUniversityIdResponse';
 import { StudentItemModel } from 'src/request-response/students/studentItemModel';
-import { IStudentService } from './istudent.service';
+import { IStudentService } from './student.service.interface';
 
 @Injectable()
 export class StudentService implements IStudentService 

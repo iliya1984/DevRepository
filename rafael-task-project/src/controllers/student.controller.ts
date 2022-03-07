@@ -1,5 +1,5 @@
 import { Controller, Dependencies, Get, Inject } from '@nestjs/common';
-import { IStudentService } from '../services/students/istudent.service';
+import { IStudentService } from '../services/students/student.service.interface';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityIdResponse';
 import { StudentService } from 'src/services/students/student.service';
 import { CommandBus } from '@nestjs/cqrs';

@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { Student } from "src/entities/student";
-import { IStudentRepository } from "src/repositories/students/studentRepository.interface";
+import { IStudentRepository } from "src/repositories/students/student.repository.interface";
 import { GetStudentsByUniversityIdQuery } from "./getStudentsByUniversityIdQuery";
 
 @CommandHandler(GetStudentsByUniversityIdQuery)
