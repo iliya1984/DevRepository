@@ -24,11 +24,11 @@ import mongoose from 'mongoose';
     {
       provide: 'DATABASE_CONNECTION',
       useFactory: (): Promise<typeof mongoose> =>
-        mongoose.connect('mongodb://127.0.0.1:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false'),
+        mongoose.connect('mongodb://127.0.0.1:27017/rafael-task-db'),
     },
     {
       provide: 'StudentDocumentModel',
-      useFactory: (connection: Connection) => connection.model('students', StudentSchema),
+      useFactory: (connection: Connection) => connection.model('rafael-task-db', StudentSchema),
       inject: ['DATABASE_CONNECTION'],
     },
   ],
