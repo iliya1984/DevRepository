@@ -8,6 +8,6 @@ import { IStudentService } from './services/students/istudent.service';
 @Module({
   imports: [],
   controllers: [AppController, StudentController],
-  providers: [AppService, StudentService],//{ provide: 'studentService', useClass: StudentService }],
+  providers: [AppService, { provide: 'IStudentService', useClass: StudentService }],
 })
 export class AppModule {}
