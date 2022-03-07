@@ -1,13 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { StudentService } from '../services/student.service';
+import { IStudentService } from '../services/students/istudent.service';
+import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityIdResponse';
+import { StudentService } from 'src/services/students/student.service';
 
-@Controller("students")
+@Controller()
 export class StudentController 
 {
   constructor(private readonly studentService: StudentService) {}
 
-  @Get()
-  getHello(): string {
-    return this.studentService.getHello();
+  @Get("students")
+  async getStudentsByUniversityId(universityId : string): Promise<GetStudentsByUniversityIdResponse> 
+  {
+    return await this.studentService.getStudentsByUniversityId(universityId);
   }
 }
+
