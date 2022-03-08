@@ -7,6 +7,14 @@ import { StudentDocument } from "./student.schema";
 export class StudentRepository implements IStudentRepository
 {
     constructor(@InjectModel('StudentDocument') private studentModel: Model<StudentDocument>) {}
+    
+    async create(student: Student): Promise<string> {
+        
+        const createdStudent = new this.studentModel(student);
+        await createdStudent.save();
+
+        return student.id;
+    }
 
     async getStudentsByUniversityId(universityId: string): Promise<Student[]> {
        

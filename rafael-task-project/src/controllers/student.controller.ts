@@ -1,4 +1,4 @@
-import { Controller, Dependencies, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Dependencies, Get, Inject, Post } from '@nestjs/common';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
 import { CommandBus } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getStudentsByUniversityId/getStudentsByUniversityId.query';
@@ -24,7 +24,7 @@ export class StudentController
   }
 
   @Post("student")
-  async create(request : CreateStudentRequest) : Promise<CreateStudentResponse> 
+  async create(@Body() request : CreateStudentRequest) : Promise<CreateStudentResponse> 
   {
     var command = new CreateStudentCommand();
     command.student = request.student;
