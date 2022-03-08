@@ -1,5 +1,5 @@
 
-import { Body, Controller, Dependencies, Get, Inject, NotImplementedException, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Dependencies, Get, Inject, NotImplementedException, Param, Post, ValidationPipe } from '@nestjs/common';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
 import { CommandBus } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUniversityId/getStudentsByUniversityId.query';
@@ -10,6 +10,7 @@ import { GetUniversityByIdResponse } from 'src/request-response/universities/get
 import { CreateUniversityResponse } from 'src/request-response/universities/createUniversity.response';
 import { CreateUniversityRequest } from 'src/request-response/universities/createUniversity.request';
 import { CreateUniversityCommand } from 'src/handlers/universities/createUniversity/createUniversity.command';
+import { GetUniversityByIdQuery } from 'src/handlers/universities/getById/getUniversityById.query';
 
 @Controller("university")
 export class UniversityController 
@@ -19,15 +20,13 @@ export class UniversityController
 
   }
 
-  @Get()
-  async getUniversityById(universityId : string): Promise<GetUniversityByIdResponse> 
+  @Get(':id')
+  async getUniversityById(@Param() params): Promise<GetUniversityByIdResponse> 
   {
-    // var query = new GetStudentsByUniversityIdQuery();
-    // query.universityId = universityId;
+    var query = new GetUniversityByIdQuery();
+    query.universityId = params.universityId;
 
-    // return await this.commandBus.execute(query);
-
-    throw new NotImplementedException();
+    return await this.commandBus.execute(query);
   }
 
   @Post()
