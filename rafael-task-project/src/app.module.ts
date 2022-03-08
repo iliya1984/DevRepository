@@ -1,27 +1,26 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './controllers/app.controller';
 import { StudentController } from './controllers/student.controller';
-import { AppService } from './services/app.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getStudentsByUniversityId/getStudentsByUniversityId.query.handler';
+import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getByUniversityId/getStudentsByUniversityId.query.handler';
 import { StudentRepository } from './repositories/students/student.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { StudentDocument, StudentSchema } from './repositories/students/student.schema';
 import mongoose from 'mongoose';
 import { CreateStudentCommandHandler } from './handlers/students/createStudent/createStudent.command.handler';
+import { CreateUniversityCommandHandler } from './handlers/universities/createUniversity/createUniversity.command.handler';
 
 @Module({
   // imports: [CqrsModule, MongooseModule.forRoot('mongodb://127.0.0.1:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false', {
   //   connectionName : 'rafael-task-db'
   // })],
   imports: [CqrsModule, MongooseModule],
-  controllers: [AppController, StudentController],
+  controllers: [StudentController],
   providers: 
   [
-    AppService, 
     GetStudentsByUniversityIdQueryHandler,
     CreateStudentCommandHandler,
+    CreateUniversityCommandHandler,
     { provide: 'IStudentRepository', useClass: StudentRepository },
     {
       provide: 'DATABASE_CONNECTION',

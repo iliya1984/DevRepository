@@ -1,7 +1,7 @@
 import { Body, Controller, Dependencies, Get, Inject, Post, ValidationPipe } from '@nestjs/common';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
 import { CommandBus } from '@nestjs/cqrs';
-import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getStudentsByUniversityId/getStudentsByUniversityId.query';
+import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUniversityId/getStudentsByUniversityId.query';
 import { CreateStudentResponse } from 'src/request-response/students/createStudent.response';
 import { CreateStudentRequest } from 'src/request-response/students/createStudent.request';
 import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
