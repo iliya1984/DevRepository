@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Student } from "src/entities/student";
-import { StudentGrade } from 'src/entities/studentGrade';
+import { Student } from "src/entities/students/student";
+import { StudentGrade } from 'src/entities/students/studentGrade';
 import { IStudentRepository } from "./student.repository.interface";
 import { StudentDocument, StudentGradeDocument } from "./student.schema";
 

@@ -1,4 +1,4 @@
-import { Student } from "src/entities/student";
+import { Student } from "src/entities/students/student";
 
 export interface IStudentRepository
 {

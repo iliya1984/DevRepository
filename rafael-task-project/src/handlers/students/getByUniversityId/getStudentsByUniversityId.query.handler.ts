@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { Student } from "src/entities/student";
-import { StudentGrade } from "src/entities/studentGrade";
+import { Student } from "src/entities/students/student";
+import { StudentGrade } from "src/entities/students/studentGrade";
 import { IStudentRepository } from "src/repositories/students/student.repository.interface";
 import { GetStudentsByUniversityIdResponse } from "src/request-response/students/getStudentsByUniversityId.response";
 import { StudentGradeModel } from "src/request-response/students/studentGrade.model";
