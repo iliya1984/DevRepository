@@ -1,0 +1,12 @@
+POST http://localhost:3000/student HTTP/1.1
+Content-type: application/json
+Host: localhost:3000
+Content-Length: 160
+
+{
+	"student" : { "name" : "ilyatest" },
+	"grades" :[
+	{ "courseName" : "descrete math", "grade" : 80},
+	{ "courseName" : "alogorithms", "grade" : 80}
+	]
+}

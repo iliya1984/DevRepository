@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { StudentDocument, StudentSchema } from './repositories/students/student.schema';
 import mongoose from 'mongoose';
+import { CreateStudentCommandHandler } from './handlers/students/createStudent/createStudent.command.handler';
 
 @Module({
   // imports: [CqrsModule, MongooseModule.forRoot('mongodb://127.0.0.1:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false', {
@@ -20,6 +21,7 @@ import mongoose from 'mongoose';
   [
     AppService, 
     GetStudentsByUniversityIdQueryHandler,
+    CreateStudentCommandHandler,
     { provide: 'IStudentRepository', useClass: StudentRepository },
     {
       provide: 'DATABASE_CONNECTION',
