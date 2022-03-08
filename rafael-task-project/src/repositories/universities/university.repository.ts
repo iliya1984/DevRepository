@@ -8,6 +8,10 @@ export class UniversityRepository implements IUniversityRepository
 {
     constructor(@InjectModel('UniversityDocument') private universityModel: Model<UniversityDocument>) {}
     
+    getById(universityId: string): Promise<University> {
+        throw new Error("Method not implemented.");
+    }
+    
     async create(university: University): Promise<string> {
         
         const createdStudent = new this.universityModel(university);
