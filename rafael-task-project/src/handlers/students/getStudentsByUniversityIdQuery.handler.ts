@@ -22,8 +22,7 @@ export class GetStudentsByUniversityIdQueryHandler implements ICommandHandler<Ge
     for(var i = 0; i < students.length; i++)
     {
       var model = new StudentItemModel();
-      model.firstName = students[i].firstName;
-      model.lastName = students[i].lastName;
+      model.name = students[i].name;
 
       response.students.push(model);
     }

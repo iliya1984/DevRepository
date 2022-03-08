@@ -16,8 +16,7 @@ export class StudentRepository implements IStudentRepository
         for(var i = 0; i < documents.length; i++)
         {
             var student = new Student();
-            student.firstName = documents[i].firstName;
-            student.lastName = documents[i].lastName;
+            student.name = documents[i].name;
 
             students.push(student);
         }
