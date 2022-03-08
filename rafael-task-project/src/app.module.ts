@@ -3,7 +3,7 @@ import { AppController } from './controllers/app.controller';
 import { StudentController } from './controllers/student.controller';
 import { AppService } from './services/app.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getStudentsByUniversityIdQuery.handler';
+import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getStudentsByUniversityId/getStudentsByUniversityId.query.handler';
 import { StudentRepository } from './repositories/students/student.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';

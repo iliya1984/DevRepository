@@ -1,4 +1,4 @@
-import { StudentItemModel } from "./studentItemModel";
+import { StudentItemModel } from "./studentItem.model";
 
 export class GetStudentsByUniversityIdResponse
 {
