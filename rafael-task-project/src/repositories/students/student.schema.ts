@@ -16,11 +16,6 @@ export interface StudentGradeDocument
   grade : number;
 }
 
-// export const StudentGradeSchema = new mongoose.Schema({
-//   courseName: String,
-//   grade : String
-// });
-
 export const StudentSchema = new mongoose.Schema({
   id : String,
   name: String,
