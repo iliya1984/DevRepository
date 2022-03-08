@@ -13,8 +13,8 @@ export interface UniversityDocument extends Document {
 export const UniversitySchema = new mongoose.Schema({
   id : String,
   name: String,
-  maxNumberOfStudents: String,
-  minGPA: String
+  maxNumberOfStudents: Number,
+  minGPA: Number
 }
 , {
   collection: 'universities'
