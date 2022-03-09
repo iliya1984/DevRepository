@@ -1,12 +1,7 @@
 import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { Student } from "src/entities/students/student";
-import { StudentGrade } from "src/entities/students/studentGrade";
 import { University } from "src/entities/universities/university";
 import { IUniversityRepository } from "src/repositories/universities/university.repository.interface";
-import { GetStudentsByUniversityIdResponse } from "src/request-response/students/getStudentsByUniversityId.response";
-import { StudentGradeModel } from "src/request-response/students/studentGrade.model";
-import { StudentItemModel } from "src/request-response/students/studentItem.model";
 import { GetUniversityByIdResponse } from "src/request-response/universities/getUniveristyById.response";
 import { UniversityItemModel } from "src/request-response/universities/universityItem.model";
 import { GetUniversityByIdQuery } from "./getUniversityById.query";

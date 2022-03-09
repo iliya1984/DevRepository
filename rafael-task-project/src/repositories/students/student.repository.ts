@@ -8,6 +8,9 @@ import { StudentDocument, StudentGradeDocument } from "./student.schema";
 export class StudentRepository implements IStudentRepository
 {
     constructor(@InjectModel('StudentDocument') private studentModel: Model<StudentDocument>) {}
+    enroll(studentId: string, universityId: string): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
     
     async create(student: Student): Promise<string> {
         

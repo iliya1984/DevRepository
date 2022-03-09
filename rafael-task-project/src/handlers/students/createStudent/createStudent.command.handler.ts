@@ -67,5 +67,4 @@ export class CreateStudentCommandHandler implements ICommandHandler<CreateStuden
 
         return student;
     }
-
 }

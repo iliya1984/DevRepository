@@ -1,5 +1,5 @@
 
-import { Body, Controller, Dependencies, Get, Inject, NotImplementedException, Param, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Dependencies, Get, HttpCode, Inject, NotImplementedException, Param, Post, ValidationPipe } from '@nestjs/common';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
 import { CommandBus } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUniversityId/getStudentsByUniversityId.query';
@@ -20,7 +20,7 @@ export class UniversityController
 
   }
 
-  @Get(':id')
+  @Get(':universityId')
   async getUniversityById(@Param() params): Promise<GetUniversityByIdResponse> 
   {
     var query = new GetUniversityByIdQuery();
@@ -29,6 +29,7 @@ export class UniversityController
     return await this.commandBus.execute(query);
   }
 
+  @HttpCode(201)
   @Post()
   async create(@Body() request : CreateUniversityRequest) : Promise<CreateUniversityResponse> 
   {

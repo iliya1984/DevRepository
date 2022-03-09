@@ -13,6 +13,7 @@ import { UniversityRepository } from './repositories/universities/university.rep
 import { UniversitySchema } from './repositories/universities/university.schema';
 import { UniversityController } from './controllers/university.controller';
 import { GetUniversityByIdQueryHandler } from './handlers/universities/getById/getUniversityById.query.handler';
+import { EnrollStudentCommandHandler } from './handlers/students/enrollStudent/enrollStudent.command.handler';
 
 @Module({
   imports: [CqrsModule, MongooseModule],
@@ -21,6 +22,7 @@ import { GetUniversityByIdQueryHandler } from './handlers/universities/getById/g
   [
     GetStudentsByUniversityIdQueryHandler,
     CreateStudentCommandHandler,
+    EnrollStudentCommandHandler,
     GetUniversityByIdQueryHandler,
     CreateUniversityCommandHandler,
     { provide: 'IStudentRepository', useClass: StudentRepository },
