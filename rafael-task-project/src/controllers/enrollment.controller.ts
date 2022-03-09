@@ -1,6 +1,7 @@
 import { Controller, HttpCode, Param, Post } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
-import { EnrollStudentCommand } from "src/handlers/enrollment/addEnrollment/enrollStudent.command";
+import { EnrollStudentCommand } from "src/handlers/enrollment/addEnrollment/addEnrollment.command";
+import { AddEnrollmentResponse } from "src/request-response/enrollment/addEnrollment.response";
 
 @Controller()
 export class EnrollmentController 
@@ -13,7 +14,7 @@ export class EnrollmentController
   
   @HttpCode(204)
   @Post("enroll/:studentId/:universityId") 
-  async enroll(@Param() params) : Promise<void>
+  async enroll(@Param() params) : Promise<AddEnrollmentResponse>
   {
     var command = new EnrollStudentCommand();
     command.studentId = params.studentId;

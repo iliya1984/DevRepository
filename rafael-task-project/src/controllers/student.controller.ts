@@ -5,7 +5,7 @@ import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUnive
 import { CreateStudentResponse } from 'src/request-response/students/createStudent.response';
 import { CreateStudentRequest } from 'src/request-response/students/createStudent.request';
 import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
-import { EnrollStudentCommand } from 'src/handlers/enrollment/addEnrollment/enrollStudent.command';
+import { EnrollStudentCommand } from 'src/handlers/enrollment/addEnrollment/addEnrollment.command';
 
 @Controller()
 export class StudentController 

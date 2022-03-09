@@ -1,13 +1,14 @@
 import { StudentGrade } from "./studentGrade";
+import { StudentGradeList } from "./studentGradeList";
 
 export class Student
 {
     public  id : string;
     public name: string;
-    public grades : Array<StudentGrade>;
+    public grades : StudentGradeList;
 
     constructor()
     {
-        this.grades = new Array<StudentGrade>();
+        this.grades = new StudentGradeList();
     }
 }

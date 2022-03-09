@@ -3,14 +3,15 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { ArgumentOutOfRangeError } from "rxjs";
 import { InvalidArgumentException } from "src/entities/errorHandling/invalidArgument.exception";
 import { IStudentRepository } from "src/repositories/students/student.repository.interface";
-import { EnrollStudentCommand } from "./enrollStudent.command";
+import { EnrollStudentCommand as AddEnrollmentCommand } from "./addEnrollment.command";
 import { IUniversityRepository } from "src/repositories/universities/university.repository.interface";
 import { ValidationResult } from "src/entities/validation/validationResult";
 import { ValidationError } from "src/entities/validation/ValidationError";
 import { ErrorCodes } from "src/entities/validation/errorCodes";
+import { AddEnrollmentResponse } from "src/request-response/enrollment/addEnrollment.response";
 
-@CommandHandler(EnrollStudentCommand)
-export class EnrollStudentCommandHandler implements ICommandHandler<EnrollStudentCommand> 
+@CommandHandler(AddEnrollmentCommand)
+export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmentCommand> 
 {
     constructor
     (
@@ -19,18 +20,24 @@ export class EnrollStudentCommandHandler implements ICommandHandler<EnrollStuden
     )
     {}
 
-    async execute(command: EnrollStudentCommand): Promise<any>
+    async execute(command: AddEnrollmentCommand): Promise<AddEnrollmentResponse>
     {
+        var response = new AddEnrollmentResponse();
+
         var validationResult = await this.ensureValidEnrollment(command);
         if(false == validationResult.isValid())
         {
-            //TODO: return invalid response
+            response.errors = validationResult.errors;
+            return response;
         }
-        
+
         await this.repository.enroll(command.studentId, command.universityId);
+
+        response.isEnrolled = true;
+        return response;
     }
 
-    private async ensureValidEnrollment(command : EnrollStudentCommand) : Promise<ValidationResult>
+    private async ensureValidEnrollment(command : AddEnrollmentCommand) : Promise<ValidationResult>
     {
         const errorMessage : string = 'Unable to enroll a student.';
         
@@ -75,6 +82,19 @@ export class EnrollStudentCommandHandler implements ICommandHandler<EnrollStuden
             return validationResult;
         }
         
+        var universityMinGPA : number = university.minGPA;
+        var studentGPA : number = student.grades.avarage();
+
+        if(studentGPA < universityMinGPA)
+        {
+            var error = new ValidationError();
+            error.errorCode = ErrorCodes.EnrollmentError_UniversityMinGPANotMet;
+            error.errorMessage = errorMessage + ' Reason: University min GPA was not met';
+
+            validationResult.errors.push(error);
+
+            return validationResult;
+        }
 
         return validationResult;
     }
