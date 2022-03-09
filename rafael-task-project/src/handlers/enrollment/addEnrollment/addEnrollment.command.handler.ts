@@ -9,6 +9,7 @@ import { ValidationResult } from "src/entities/validation/validationResult";
 import { ValidationError } from "src/entities/validation/ValidationError";
 import { ErrorCodes } from "src/entities/validation/errorCodes";
 import { AddEnrollmentResponse } from "src/request-response/enrollment/addEnrollment.response";
+import { AddEnrollmentValdationResult } from "./addEnrollmentValidationResult";
 
 @CommandHandler(AddEnrollmentCommand)
 export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmentCommand> 
@@ -24,20 +25,22 @@ export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmen
     {
         var response = new AddEnrollmentResponse();
 
-        var validationResult = await this.ensureValidEnrollment(command);
+        var result = await this.ensureValidEnrollment(command);
+        var validationResult = result.validationResult;
+
         if(false == validationResult.isValid())
         {
             response.errors = validationResult.errors;
             return response;
         }
 
-        await this.repository.enroll(command.studentId, command.universityId);
+        await this.repository.enroll(result.student.id, result.university.id, result.university.maxNumberOfStudents);
 
         response.isEnrolled = true;
         return response;
     }
 
-    private async ensureValidEnrollment(command : AddEnrollmentCommand) : Promise<ValidationResult>
+    private async ensureValidEnrollment(command : AddEnrollmentCommand) : Promise<AddEnrollmentValdationResult>
     {
         const errorMessage : string = 'Unable to enroll a student.';
         
@@ -67,11 +70,15 @@ export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmen
 
         var validationResult = new ValidationResult();
 
+        var result = new AddEnrollmentValdationResult();
+        result.student = student;
+        result.university = university;
+        result.validationResult = validationResult;
+
         var enrolledStudents = await this.repository.getStudentsByUniversityId(university.id);
         var numberOfStudents = enrolledStudents.length;
 
-        var studentCapacity = university.maxNumberOfStudents - numberOfStudents;
-        if(studentCapacity < 1)
+        if(university.maxNumberOfStudents <= numberOfStudents)
         {
             var error = new ValidationError();
             error.errorCode = ErrorCodes.EnrollmentError_UniversityMaxCapacityReached;
@@ -79,7 +86,7 @@ export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmen
 
             validationResult.errors.push(error);
 
-            return validationResult;
+            return result;
         }
         
         var universityMinGPA : number = university.minGPA;
@@ -93,9 +100,9 @@ export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmen
 
             validationResult.errors.push(error);
 
-            return validationResult;
+            return result;
         }
 
-        return validationResult;
+        return result;
     }
 }

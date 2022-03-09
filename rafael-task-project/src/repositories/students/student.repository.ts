@@ -9,20 +9,49 @@ import { StudentDocument, StudentGradeDocument } from "./student.schema";
 export class StudentRepository implements IStudentRepository
 {
     constructor
-    (@InjectModel('StudentDocument') private studentModel: Model<StudentDocument>) 
+    (
+        @InjectModel('StudentDocument') private studentModel: Model<StudentDocument>,
+        @InjectConnection() private readonly connection: mongoose.Connection
+        ) 
     {
 
     }
     
     
-    async enroll(studentId: string, universityId: string): Promise<boolean> {
+    async enroll(studentId: string, universityId: string, maxNumberOfStudents: number): Promise<boolean> {
         
-        var student = await this.studentModel.findOne<StudentDocument>({ where: { id : studentId }}).exec();
-
-        var result : boolean = false;
-        if(!student)
+        const session = await this.connection.startSession();
+ 
+        session.startTransaction();
+        try 
         {
+            var enrolledStudents = await this.studentModel
+                .find<StudentDocument>({ where: { universityId : universityId }})
+                .session(session)
+                .exec();
+            
+            if(enrolledStudents.length >= maxNumberOfStudents)
+            {
+                session.abortTransaction();
+                return false;
+            }
+
+            if(enrolledStudents.length )
+
+            var student = await this.studentModel
+                .findOne<StudentDocument>({ where: { id : studentId }})
+                .session(session)
+                .exec();
+
+            if(!student)
+            {
+                session.abortTransaction();
+                return false;
+            }
+    
+            var result : boolean = false;
             student.universityId = universityId;
+
             await student.save(error =>
             {
                 if(!error)
@@ -30,9 +59,25 @@ export class StudentRepository implements IStudentRepository
                     result = true;
                 }
             });
-        }
+            
+            if(!result)
+            {
+                session.abortTransaction();
+                return false;
+            }
 
-        return result;
+            await session.commitTransaction();
+            return true;
+        } 
+        catch (error) 
+        {
+          await session.abortTransaction();
+          throw error;
+        } 
+        finally 
+        {
+          session.endSession();
+        }
     }
     
     async create(student: Student): Promise<string> {
