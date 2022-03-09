@@ -52,7 +52,7 @@ export class StudentRepository implements IStudentRepository
             var result : boolean = false;
             student.universityId = universityId;
 
-            await student.save(error =>
+            await student.save({ session : session }, error =>
             {
                 if(!error)
                 {
