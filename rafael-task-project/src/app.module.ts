@@ -14,10 +14,11 @@ import { UniversitySchema } from './repositories/universities/university.schema'
 import { UniversityController } from './controllers/university.controller';
 import { GetUniversityByIdQueryHandler } from './handlers/universities/getById/getUniversityById.query.handler';
 import { AddEnrollmentCommandHandler } from './handlers/enrollment/addEnrollment/addEnrollment.command.handler';
+import { EnrollmentController } from './controllers/enrollment.controller';
 
 @Module({
   imports: [CqrsModule, MongooseModule],
-  controllers: [StudentController, UniversityController],
+  controllers: [StudentController, UniversityController, EnrollmentController],
   providers: 
   [
     GetStudentsByUniversityIdQueryHandler,

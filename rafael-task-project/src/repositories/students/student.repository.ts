@@ -8,76 +8,37 @@ import { StudentDocument, StudentGradeDocument } from "./student.schema";
 
 export class StudentRepository implements IStudentRepository
 {
-    constructor
-    (
-        @InjectModel('StudentDocument') private studentModel: Model<StudentDocument>,
-        @InjectConnection() private readonly connection: mongoose.Connection
-        ) 
-    {
-
-    }
+    constructor( @InjectModel('StudentDocument') private studentModel: Model<StudentDocument> ) 
+    { }
     
-    
-    async enroll(studentId: string, universityId: string, maxNumberOfStudents: number): Promise<boolean> {
-        
-        const session = await this.connection.startSession();
- 
-        session.startTransaction();
-        try 
+    async enroll(studentId: string, universityId: string): Promise<boolean> 
+    {    
+        var student = await this.studentModel
+            .findOne<StudentDocument>({ where: { id : studentId }})
+            .exec();
+
+        if(!student)
         {
-            var enrolledStudents = await this.studentModel
-                .find<StudentDocument>({ where: { universityId : universityId }})
-                .session(session)
-                .exec();
-            
-            if(enrolledStudents.length >= maxNumberOfStudents)
-            {
-                session.abortTransaction();
-                return false;
-            }
-
-            if(enrolledStudents.length )
-
-            var student = await this.studentModel
-                .findOne<StudentDocument>({ where: { id : studentId }})
-                .session(session)
-                .exec();
-
-            if(!student)
-            {
-                session.abortTransaction();
-                return false;
-            }
-    
-            var result : boolean = false;
-            student.universityId = universityId;
-
-            await student.save({ session : session }, error =>
-            {
-                if(!error)
-                {
-                    result = true;
-                }
-            });
-            
-            if(!result)
-            {
-                session.abortTransaction();
-                return false;
-            }
-
-            await session.commitTransaction();
-            return true;
-        } 
-        catch (error) 
-        {
-          await session.abortTransaction();
-          throw error;
-        } 
-        finally 
-        {
-          session.endSession();
+            return false;
         }
+
+        var result : boolean = false;
+        student.universityId = universityId;
+
+        await student.save( error =>
+        {
+            if(!error)
+            {
+                result = true;
+            }
+        });
+    
+        if(!result)
+        {
+            return false;
+        }
+
+        return true;
     }
     
     async create(student: Student): Promise<string> {
@@ -90,7 +51,8 @@ export class StudentRepository implements IStudentRepository
 
     async getById(studentId: string): Promise<Student> {
        
-        var document = await this.studentModel.findOne<StudentDocument>({ where: { id : studentId }}).exec();
+        var documents  =  await this.studentModel.find<StudentDocument>({ where: { id : studentId }}).exec();
+        var document = documents[1]; //.findOne<StudentDocument>({ where: { id : studentId }}).exec();
 
         if(document == undefined || document == null)
         {

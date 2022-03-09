@@ -7,6 +7,7 @@ import { IStudentRepository } from "src/repositories/students/student.repository
 import { CreateStudentResponse } from "src/request-response/students/createStudent.response";
 import { CreateStudentCommand } from "./createStudent.command";
 import { v4 as uuidv4 } from 'uuid';
+import { StudentGradeList } from "src/entities/students/studentGradeList";
 
 @CommandHandler(CreateStudentCommand)
 export class CreateStudentCommandHandler implements ICommandHandler<CreateStudentCommand> 
@@ -51,7 +52,7 @@ export class CreateStudentCommandHandler implements ICommandHandler<CreateStuden
 
         if(gradesModel !== undefined && gradesModel !== null && gradesModel.length > 0)
         {
-            var grades = new Array<StudentGrade>();
+            var grades = new StudentGradeList();
 
             gradesModel.forEach(gm => {
 

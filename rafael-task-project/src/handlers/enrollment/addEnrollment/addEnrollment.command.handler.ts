@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { ArgumentOutOfRangeError } from "rxjs";
 import { InvalidArgumentException } from "src/entities/errorHandling/invalidArgument.exception";
 import { IStudentRepository } from "src/repositories/students/student.repository.interface";
-import { EnrollStudentCommand as AddEnrollmentCommand } from "./addEnrollment.command";
+import { AddEnrollmentCommand as AddEnrollmentCommand } from "./addEnrollment.command";
 import { IUniversityRepository } from "src/repositories/universities/university.repository.interface";
 import { ValidationResult } from "src/entities/validation/validationResult";
 import { ValidationError } from "src/entities/validation/ValidationError";
@@ -34,7 +34,7 @@ export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmen
             return response;
         }
 
-        await this.repository.enroll(result.student.id, result.university.id, result.university.maxNumberOfStudents);
+        await this.repository.enroll(result.student.id, result.university.id);
 
         response.isEnrolled = true;
         return response;
