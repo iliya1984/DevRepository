@@ -1,4 +1,5 @@
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { Student } from "src/entities/students/student";
 import { StudentGrade } from 'src/entities/students/studentGrade';
@@ -7,11 +8,31 @@ import { StudentDocument, StudentGradeDocument } from "./student.schema";
 
 export class StudentRepository implements IStudentRepository
 {
-    constructor(@InjectModel('StudentDocument') private studentModel: Model<StudentDocument>) {}
+    constructor
+    (@InjectModel('StudentDocument') private studentModel: Model<StudentDocument>) 
+    {
+
+    }
     
     
-    enroll(studentId: string, universityId: string): Promise<void> {
-        throw new Error('Method not implemented.');
+    async enroll(studentId: string, universityId: string): Promise<boolean> {
+        
+        var student = await this.studentModel.findOne<StudentDocument>({ where: { id : studentId }}).exec();
+
+        var result : boolean = false;
+        if(!student)
+        {
+            student.universityId = universityId;
+            await student.save(error =>
+            {
+                if(!error)
+                {
+                    result = true;
+                }
+            });
+        }
+
+        return result;
     }
     
     async create(student: Student): Promise<string> {

@@ -6,6 +6,7 @@ import { Document } from 'mongoose';
 export interface StudentDocument extends Document {
 
   id : string;
+  universityId: string;
   name: string;
   grades : Array<StudentGradeDocument>;
 }
@@ -18,6 +19,7 @@ export interface StudentGradeDocument
 
 export const StudentSchema = new mongoose.Schema({
   id : String,
+  universityId : String,
   name: String,
   grades: Array
 }
