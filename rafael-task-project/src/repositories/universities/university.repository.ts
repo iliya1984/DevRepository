@@ -11,7 +11,7 @@ export class UniversityRepository implements IUniversityRepository
     
     async getById(universityId: string): Promise<University> {
        
-        var document = await this.universityModel.findOne<UniversityDocument>({ where: { id : universityId }}).exec();
+        var document = await this.universityModel.findOne<UniversityDocument>( { id : universityId }).exec();
 
         if(document == undefined || document == null)
         {

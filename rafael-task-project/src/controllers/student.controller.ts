@@ -14,11 +14,11 @@ export class StudentController
 
   }
 
-  @Get("students")
-  async getStudentsByUniversityId(universityId : string): Promise<GetStudentsByUniversityIdResponse> 
+  @Get("students/:universityId")
+  async getStudentsByUniversityId(@Param() params): Promise<GetStudentsByUniversityIdResponse> 
   {
     var query = new GetStudentsByUniversityIdQuery();
-    query.universityId = universityId;
+    query.universityId = params.universityId;
 
     return await this.commandBus.execute(query);
   }

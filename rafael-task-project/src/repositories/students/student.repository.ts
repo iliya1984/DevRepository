@@ -1,6 +1,7 @@
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Model } from 'mongoose';
+import { doc } from 'prettier';
 import { Student } from "src/entities/students/student";
 import { StudentGrade } from 'src/entities/students/studentGrade';
 import { IStudentRepository } from "./student.repository.interface";
@@ -14,7 +15,7 @@ export class StudentRepository implements IStudentRepository
     async enroll(studentId: string, universityId: string): Promise<boolean> 
     {    
         var student = await this.studentModel
-            .findOne<StudentDocument>({ where: { id : studentId }})
+            .findOne<StudentDocument>({ id : studentId })
             .exec();
 
         if(!student)
@@ -33,10 +34,10 @@ export class StudentRepository implements IStudentRepository
             }
         });
     
-        if(!result)
-        {
-            return false;
-        }
+        // if(!result)
+        // {
+        //     return false;
+        // }
 
         return true;
     }
@@ -51,8 +52,7 @@ export class StudentRepository implements IStudentRepository
 
     async getById(studentId: string): Promise<Student> {
        
-        var documents  =  await this.studentModel.find<StudentDocument>({ where: { id : studentId }}).exec();
-        var document = documents[1]; //.findOne<StudentDocument>({ where: { id : studentId }}).exec();
+        var document  =  await this.studentModel.findOne<StudentDocument>({ id : studentId }).exec();
 
         if(document == undefined || document == null)
         {
@@ -64,7 +64,7 @@ export class StudentRepository implements IStudentRepository
 
     async getStudentsByUniversityId(universityId: string): Promise<Student[]> {
        
-        var documents = await this.studentModel.find<StudentDocument>().exec();
+        var documents = await this.studentModel.find<StudentDocument>( { universityId : universityId }).exec();
 
         var students = new Array<Student>();
 
@@ -82,6 +82,7 @@ export class StudentRepository implements IStudentRepository
         var student = new Student();
         student.id = document.id;
         student.name = document.name;
+        student.universityId = document.universityId;
 
         if(document.grades !== undefined && document.grades !== null && document.grades.length > 0)
         {

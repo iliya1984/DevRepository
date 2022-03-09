@@ -38,6 +38,7 @@ export class GetStudentsByUniversityIdQueryHandler implements ICommandHandler<Ge
     var model = new StudentItemModel();
     model.id = student.id;
     model.name = student.name;
+    model.universityId = student.universityId;
 
     if(student.grades != undefined && student.grades != null && student.grades.length > 0)
     {

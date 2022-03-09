@@ -34,9 +34,9 @@ export class AddEnrollmentCommandHandler implements ICommandHandler<AddEnrollmen
             return response;
         }
 
-        await this.repository.enroll(result.student.id, result.university.id);
+        var isEnrolled = await this.repository.enroll(result.student.id, result.university.id);
 
-        response.isEnrolled = true;
+        response.isEnrolled = isEnrolled;
         return response;
     }
 
