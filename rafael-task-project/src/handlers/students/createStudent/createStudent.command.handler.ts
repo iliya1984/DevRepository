@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { Student } from "src/entities/students/student";
 import { StudentGrade } from "src/entities/students/studentGrade";
-import { ValidationResult } from "src/entities/valdiationResult";
+import { EntityValidationResult } from "src/entities/validation/entityValdiationResult";
 import { IStudentRepository } from "src/repositories/students/student.repository.interface";
 import { CreateStudentResponse } from "src/request-response/students/createStudent.response";
 import { CreateStudentCommand } from "./createStudent.command";
@@ -32,11 +32,11 @@ export class CreateStudentCommandHandler implements ICommandHandler<CreateStuden
         return response;
     }
 
-    private validate(student: Student) : ValidationResult
+    private validate(student: Student) : EntityValidationResult
     {
         //TODO: validate student entity before creation
 
-        var result = new ValidationResult();
+        var result = new EntityValidationResult();
         return result;
     }
 

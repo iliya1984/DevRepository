@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { University } from "src/entities/universities/university";
-import { ValidationResult } from "src/entities/valdiationResult";
+import { EntityValidationResult } from "src/entities/validation/entityValdiationResult";
 import { IUniversityRepository } from "src/repositories/universities/university.repository.interface";
 import { CreateUniversityResponse } from "src/request-response/universities/createUniversity.response";
 import { CreateUniversityCommand } from "./createUniversity.command";
@@ -31,11 +31,11 @@ export class CreateUniversityCommandHandler implements ICommandHandler<CreateUni
         return response;
     }
 
-    private validate(university: University) : ValidationResult
+    private validate(university: University) : EntityValidationResult
     {
         //TODO: validate university entity before creation
 
-        var result = new ValidationResult();
+        var result = new EntityValidationResult();
         return result;
     }
 

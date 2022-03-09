@@ -5,7 +5,7 @@ import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUnive
 import { CreateStudentResponse } from 'src/request-response/students/createStudent.response';
 import { CreateStudentRequest } from 'src/request-response/students/createStudent.request';
 import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
-import { EnrollStudentCommand } from 'src/handlers/students/enrollStudent/enrollStudent.command';
+import { EnrollStudentCommand } from 'src/handlers/enrollment/addEnrollment/enrollStudent.command';
 
 @Controller()
 export class StudentController 
@@ -31,17 +31,6 @@ export class StudentController
     var command = new CreateStudentCommand();
     command.student = request.student;
     command.grades = request.grades;
-    
-    return await this.commandBus.execute(command);
-  }
-
-  @HttpCode(204)
-  @Post("enroll/:studentId/:universityId") 
-  async enroll(@Param() params) : Promise<void>
-  {
-    var command = new EnrollStudentCommand();
-    command.studentId = params.studentId;
-    command.universityId = params.universityId;
     
     return await this.commandBus.execute(command);
   }
