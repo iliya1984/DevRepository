@@ -8,6 +8,8 @@ import { StudentDocument, StudentGradeDocument } from "./student.schema";
 export class StudentRepository implements IStudentRepository
 {
     constructor(@InjectModel('StudentDocument') private studentModel: Model<StudentDocument>) {}
+    
+    
     enroll(studentId: string, universityId: string): Promise<void> {
         throw new Error('Method not implemented.');
     }
@@ -18,6 +20,18 @@ export class StudentRepository implements IStudentRepository
         await createdStudent.save();
 
         return student.id;
+    }
+
+    async getById(studentId: string): Promise<Student> {
+       
+        var document = await this.studentModel.findOne<StudentDocument>({ where: { id : studentId }}).exec();
+
+        if(document == undefined || document == null)
+        {
+            return null;
+        }
+
+        return this.mapDocumentToStudent(document);
     }
 
     async getStudentsByUniversityId(universityId: string): Promise<Student[]> {
