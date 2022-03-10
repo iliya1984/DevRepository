@@ -24,7 +24,7 @@ export class StudentController
     return await this.commandBus.execute(query);
   }
 
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   @Post("student")
   async create(@Body() request : CreateStudentRequest, @Res() response: Response) : Promise<void> 
   {
@@ -34,8 +34,11 @@ export class StudentController
     
     var result = await this.commandBus.execute(command);
 
+    var httpStatus = (<CreateStudentResponse>result).errors.length > 0 
+      ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.CREATED;
+
     response
-      .status(HttpStatus.UNPROCESSABLE_ENTITY)
+      .status(httpStatus)
       .json(result);
   }
 }
