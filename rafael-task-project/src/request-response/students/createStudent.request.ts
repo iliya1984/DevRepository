@@ -4,6 +4,7 @@ import { StudentGradeModel } from "./studentGrade.model";
 
 export class CreateStudentRequest
 {
+    @IsNotEmpty()
     public student : StudentCreationModel;
     
     public grades : Array<StudentGradeModel>;

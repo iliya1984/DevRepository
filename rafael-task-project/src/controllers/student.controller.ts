@@ -1,10 +1,11 @@
-import { Body, Controller, Dependencies, Get, HttpCode, Inject, Param, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Dependencies, Get, HttpCode, HttpStatus, Inject, Param, Post, Res, ValidationPipe } from '@nestjs/common';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
 import { CommandBus } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUniversityId/getStudentsByUniversityId.query';
 import { CreateStudentResponse } from 'src/request-response/students/createStudent.response';
 import { CreateStudentRequest } from 'src/request-response/students/createStudent.request';
 import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
+import { Response } from 'express';
 
 @Controller()
 export class StudentController 
@@ -25,13 +26,17 @@ export class StudentController
 
   @HttpCode(201)
   @Post("student")
-  async create(@Body() request : CreateStudentRequest) : Promise<CreateStudentResponse> 
+  async create(@Body() request : CreateStudentRequest, @Res() response: Response) : Promise<void> 
   {
     var command = new CreateStudentCommand();
     command.student = request.student;
     command.grades = request.grades;
     
-    return await this.commandBus.execute(command);
+    var result = await this.commandBus.execute(command);
+
+    response
+      .status(HttpStatus.UNPROCESSABLE_ENTITY)
+      .json(result);
   }
 }
 
