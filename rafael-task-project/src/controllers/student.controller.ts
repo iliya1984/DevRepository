@@ -24,7 +24,6 @@ export class StudentController
     return await this.commandBus.execute(query);
   }
 
-  @HttpCode(HttpStatus.CREATED)
   @Post("student")
   async create(@Body() request : CreateStudentRequest, @Res() response: Response) : Promise<void> 
   {

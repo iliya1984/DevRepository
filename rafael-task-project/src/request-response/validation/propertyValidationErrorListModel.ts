@@ -22,6 +22,6 @@ export class PropertyValidationErrorListModel extends Array<PropertyValidationEr
             this.push(error);
         }
 
-        error.errors.push(errorMessage);
+        error.errorMessages.push(errorMessage);
     }
 }

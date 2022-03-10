@@ -45,7 +45,7 @@ export class CreateStudentCommandHandler implements ICommandHandler<CreateStuden
             throw new InternalServerErrorException('Unable to create student entity. ID was not set');
         }
 
-        if(student.name == undefined || student.name == null || student.name == '')
+        if(student.name == undefined || student.name == '')
         {
             var error = new PropertyValidationError();
             error.propertyName = 'name';

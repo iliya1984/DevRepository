@@ -1,11 +1,7 @@
 
-import { Body, Controller, Dependencies, Get, HttpCode, Inject, NotImplementedException, Param, Post, ValidationPipe } from '@nestjs/common';
-import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
+import { Body, Controller, Dependencies, Get, HttpCode, HttpStatus, Inject, NotImplementedException, Param, Post, Res, ValidationPipe } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUniversityId/getStudentsByUniversityId.query';
-import { CreateStudentResponse } from 'src/request-response/students/createStudent.response';
-import { CreateStudentRequest } from 'src/request-response/students/createStudent.request';
-import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
+import { Response } from 'express';
 import { GetUniversityByIdResponse } from 'src/request-response/universities/getUniveristyById.response';
 import { CreateUniversityResponse } from 'src/request-response/universities/createUniversity.response';
 import { CreateUniversityRequest } from 'src/request-response/universities/createUniversity.request';
@@ -29,14 +25,20 @@ export class UniversityController
     return await this.commandBus.execute(query);
   }
 
-  @HttpCode(201)
   @Post()
-  async create(@Body() request : CreateUniversityRequest) : Promise<CreateUniversityResponse> 
+  async create(@Body() request : CreateUniversityRequest, @Res() response: Response) : Promise<void> 
   {
     var command = new CreateUniversityCommand();
     command.university = request.university;
     
-    return await this.commandBus.execute(command);
+    var result = await this.commandBus.execute(command);
+
+    var httpStatus = (<CreateUniversityResponse>result).errors.length > 0 
+      ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.CREATED;
+
+    response
+      .status(httpStatus)
+      .json(result);
   }
 }
 

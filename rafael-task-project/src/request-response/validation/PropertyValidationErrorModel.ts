@@ -1,10 +1,10 @@
 export class PropertyValidationErrorModel
 {
     public propertyName: string;
-    public errors : Array<string>;
+    public errorMessages : Array<string>;
 
     constructor()
     {
-        this.errors = new Array<string>();
+        this.errorMessages = new Array<string>();
     }
 }
