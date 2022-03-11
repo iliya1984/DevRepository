@@ -1,4 +1,4 @@
-Rafael task project Readme
+## Rafael task project Readme
 
 Deployment and run operations
 
@@ -36,10 +36,10 @@ Deployment and run operations
 
 
 
-You can use following HTTP request examples to test the application
+## You can use following HTTP request examples to test the application
 
 
-##Create university request
+## Create university request
 
 POST http://localhost:3000/university HTTP/1.1
 Content-type: application/json
@@ -56,7 +56,7 @@ Content-Length: 108
 }
 
 
-##Create student request
+## Create student request
 
 POST http://localhost:3000/student HTTP/1.1
 Content-type: application/json
@@ -72,14 +72,14 @@ Content-Length: 162
 }
 
 
-##Get students by university ID
+## Get students by university ID
 
 GET http://localhost:3000/students/6e171bc9-6944-447d-a0db-5ee423135e89 HTTP/1.1
 Host: localhost:3000
 Content-Length: 0
 
 
-##Get university by ID
+## Get university by ID
 
 GET http://localhost:3000/university/6e171bc9-6944-447d-a0db-5ee423135e89 HTTP/1.1
 Host: localhost:3000
