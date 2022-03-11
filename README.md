@@ -7,18 +7,31 @@ Deployment and run operations
 2 - Install mongodb server
 
 3 - (Optional) Install Mongodb Compass
+
 4 - Create "rafael-task-db" mongo database
+
 5 - Create "students" collection
+
 6 - Create "universities" collection
+
 7 - Install VSCode community addition
+
 8 - Add environment variables
-    8.1 - DB server path variable, VariableName = "TempDBServerPath", VariableValue="mongodb://127.0.0.1:27017/"
-    8.2 - Logging path variable, VariableName = "TempLogPath", VariableValue="C:\logs"
+
+	8.1 - DB server path variable, VariableName = "TempDBServerPath", VariableValue="mongodb://127.0.0.1:27017/"
+    
+    	8.2 - Logging path variable, VariableName = "TempLogPath", VariableValue="C:\logs"
+
 9 - To view the code open project in VSCode IDE 
+
 10 - Run command line tool as Administrator
+
 11 - Open project root directory with cd {Project_Dir} command
+
 12 - Run "npm install" command to install all packages
+
 13 - Run "npm run start:dev" command in order to run application
+
 14 - (Optional) Install fiddler
 
 You can use following HTTP request examples to test the application
