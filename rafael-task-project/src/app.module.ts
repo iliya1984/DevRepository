@@ -15,9 +15,14 @@ import { UniversityController } from './controllers/university.controller';
 import { GetUniversityByIdQueryHandler } from './handlers/universities/getById/getUniversityById.query.handler';
 import { AddEnrollmentCommandHandler } from './handlers/enrollment/addEnrollment/addEnrollment.command.handler';
 import { EnrollmentController } from './controllers/enrollment.controller';
+import { ConfigModule } from '@nestjs/config';
+import { ConfigurationService } from './services/configuration/configuration.service';
+import { IConfigurationService } from './services/configuration/configuration.service.interface';
+import { Configuration } from './entities/configuration/configuration';
+import { IConfiguration } from './entities/configuration/configuration.interface';
 
 @Module({
-  imports: [CqrsModule, MongooseModule],
+  imports: [CqrsModule, MongooseModule, ConfigModule.forRoot()],
   controllers: [StudentController, UniversityController, EnrollmentController],
   providers: 
   [
@@ -28,10 +33,26 @@ import { EnrollmentController } from './controllers/enrollment.controller';
     CreateUniversityCommandHandler,
     { provide: 'IStudentRepository', useClass: StudentRepository },
     { provide: 'IUniversityRepository', useClass: UniversityRepository },
+    { 
+      provide: 'IConfigurationService', 
+      useClass: ConfigurationService 
+    },
+    { 
+      provide: 'IConfiguration', 
+      useFactory : (configService: IConfigurationService) =>
+      {
+        return configService.get();
+      },
+      inject: ['IConfigurationService'] 
+    },
     {
       provide: 'DATABASE_CONNECTION',
-      useFactory: (): Promise<typeof mongoose> =>
-        mongoose.connect('mongodb://127.0.0.1:27017/rafael-task-db'),
+      useFactory: (configuration: IConfiguration): Promise<typeof mongoose> =>
+      {
+        var connectionString = configuration.dbConnectionString + 'rafael-task-db';
+        return mongoose.connect(connectionString);
+      },
+      inject: ['IConfiguration']
     },
     {
       provide: 'StudentDocumentModel',

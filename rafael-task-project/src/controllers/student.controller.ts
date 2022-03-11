@@ -6,6 +6,7 @@ import { CreateStudentResponse } from 'src/request-response/students/createStude
 import { CreateStudentRequest } from 'src/request-response/students/createStudent.request';
 import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
 import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class StudentController 
