@@ -1,4 +1,4 @@
-import { Body, Controller, Dependencies, Get, HttpCode, HttpStatus, Inject, Param, Post, Res, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Dependencies, Get, HttpCode, HttpStatus, Inject, LoggerService, Param, Post, Res, ValidationPipe } from '@nestjs/common';
 import { GetStudentsByUniversityIdResponse } from '../request-response/students/getStudentsByUniversityId.response';
 import { CommandBus } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQuery } from 'src/handlers/students/getByUniversityId/getStudentsByUniversityId.query';
@@ -11,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
 @Controller()
 export class StudentController 
 {
-  constructor(private commandBus: CommandBus) 
+  constructor(private commandBus: CommandBus, @Inject("ILogger") private logger : LoggerService) 
   {
 
   }
@@ -19,6 +19,8 @@ export class StudentController
   @Get("students/:universityId")
   async getStudentsByUniversityId(@Param() params): Promise<GetStudentsByUniversityIdResponse> 
   {
+    this.logger.error('test error');
+
     var query = new GetStudentsByUniversityIdQuery();
     query.universityId = params.universityId;
 

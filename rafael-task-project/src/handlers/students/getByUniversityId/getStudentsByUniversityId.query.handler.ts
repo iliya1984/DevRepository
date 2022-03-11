@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable, LoggerService, Scope } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { Student } from "src/entities/students/student";
 import { StudentGrade } from "src/entities/students/studentGrade";
@@ -15,6 +15,8 @@ export class GetStudentsByUniversityIdQueryHandler implements ICommandHandler<Ge
 
   async execute(query: GetStudentsByUniversityIdQuery) : Promise<GetStudentsByUniversityIdResponse> {
     
+    //this.logger.error('test error');
+
     const universityId = query.universityId;
     
     const students = await this.repository.getStudentsByUniversityId(universityId);

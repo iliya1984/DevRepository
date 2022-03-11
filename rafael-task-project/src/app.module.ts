@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { StudentController } from './controllers/student.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getByUniversityId/getStudentsByUniversityId.query.handler';
@@ -20,6 +20,8 @@ import { ConfigurationService } from './services/configuration/configuration.ser
 import { IConfigurationService } from './services/configuration/configuration.service.interface';
 import { Configuration } from './entities/configuration/configuration';
 import { IConfiguration } from './entities/configuration/configuration.interface';
+import { LoggerMiddleware } from './services/logging/loggerMiddleware';
+import { FileLogger } from './services/logging/fileLogger';
 
 @Module({
   imports: [CqrsModule, MongooseModule, ConfigModule.forRoot()],
@@ -31,6 +33,7 @@ import { IConfiguration } from './entities/configuration/configuration.interface
     AddEnrollmentCommandHandler,
     GetUniversityByIdQueryHandler,
     CreateUniversityCommandHandler,
+    { provide: 'ILogger', useClass: FileLogger },
     { provide: 'IStudentRepository', useClass: StudentRepository },
     { provide: 'IUniversityRepository', useClass: UniversityRepository },
     { 
@@ -43,7 +46,7 @@ import { IConfiguration } from './entities/configuration/configuration.interface
       {
         return configService.get();
       },
-      inject: ['IConfigurationService'] 
+      inject: ['IConfigurationService']
     },
     {
       provide: 'DATABASE_CONNECTION',
@@ -66,4 +69,10 @@ import { IConfiguration } from './entities/configuration/configuration.interface
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
