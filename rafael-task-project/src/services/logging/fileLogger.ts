@@ -1,7 +1,8 @@
-import { ConsoleLogger, Inject } from "@nestjs/common";
+import { ConsoleLogger, Inject, LogLevel } from "@nestjs/common";
 import { promisify } from "util";
 import { readFile, writeFile, mkdirSync, existsSync, appendFile  }  from 'fs';
 import { IConfiguration } from "src/entities/configuration/configuration.interface";
+import { LogLevelTypes } from "src/entities/logging/logLevels";
 
 export class FileLogger extends ConsoleLogger
 {
@@ -19,11 +20,17 @@ export class FileLogger extends ConsoleLogger
 
     public error(message: any, stack?: string, context?: string): void
     {
-        var fullFilePath = this.createFileFullPath();
+        this.createLog(message, LogLevelTypes.Error, stack, context);
+        super.error(message, stack, context);
+    }
+   
+    private createLog(message: any, level : LogLevelTypes, stack?: string, context?: string)
+    {
+        var fullFilePath = this.createFileFullPath(level);
 
         if(!this.checkIfFileOrDirectoryExists(fullFilePath))
         {
-            this.writeToFile(this.filePath, fullFilePath, message);
+            this.writeToFile(this.filePath, fullFilePath, message, level);
         }
         else
         {
@@ -36,14 +43,16 @@ export class FileLogger extends ConsoleLogger
             });
         }
 
-        super.error(message, stack, context);
     }
-   
-    private async writeToFile(path: string, filePath: string, data: string): Promise<void>
+
+    private async writeToFile(path: string, filePath: string, data: string, level : LogLevelTypes): Promise<void>
     {
-        if (!this.checkIfFileOrDirectoryExists(path)) 
+        var subfolder = this.getSubfolderByLevel(level);
+        var logDirectory = `${this.filePath}\\${subfolder}`;
+
+        if (!this.checkIfFileOrDirectoryExists(logDirectory)) 
         {
-            mkdirSync(path);
+            mkdirSync(logDirectory);
         }
       
         const writeFileAsync = promisify(writeFile);
@@ -55,13 +64,34 @@ export class FileLogger extends ConsoleLogger
         return existsSync(path);
     }
 
-    private createFileFullPath() : string
+    private createFileFullPath(level : LogLevelTypes) : string
     {
+        const subfolder = this.getSubfolderByLevel(level);
+
         const nowDate = new Date(Date.now());
         const month = nowDate.getMonth();
         const date =  nowDate.getDate();
         const year = nowDate.getFullYear();
 
-        return `${this.filePath}\\${this.fileName}_${date}_${month}_${year}.${this.fileExtension}`;
+        return `${this.filePath}\\${subfolder}\\${this.fileName}_${date}_${month}_${year}.${this.fileExtension}`;
+    }
+
+    private getSubfolderByLevel(level : LogLevelTypes) : string
+    {
+        var subfolder = '';
+
+        switch(level)
+        {
+            case LogLevelTypes.Information:
+                subfolder = 'information';
+                break;
+            case LogLevelTypes.Error:
+                subfolder = 'errors';
+                break;
+            default:
+                subfolder = 'other';
+        }
+
+        return subfolder;
     }
 }
