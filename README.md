@@ -34,7 +34,10 @@ Deployment and run operations
 
 14 - (Optional) Install fiddler
 
+
+
 You can use following HTTP request examples to test the application
+
 
 ##Create university request
 
@@ -52,6 +55,7 @@ Content-Length: 108
 	}
 }
 
+
 ##Create student request
 
 POST http://localhost:3000/student HTTP/1.1
@@ -67,17 +71,20 @@ Content-Length: 162
 	]
 }
 
+
 ##Get students by university ID
 
 GET http://localhost:3000/students/6e171bc9-6944-447d-a0db-5ee423135e89 HTTP/1.1
 Host: localhost:3000
 Content-Length: 0
 
+
 ##Get university by ID
 
 GET http://localhost:3000/university/6e171bc9-6944-447d-a0db-5ee423135e89 HTTP/1.1
 Host: localhost:3000
 Content-Length: 0
+
 
 ## Enroll student
 
