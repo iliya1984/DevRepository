@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { LoggerService, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './services/logging/globalExceptionFilter';
@@ -6,8 +6,10 @@ import { GlobalExceptionFilter } from './services/logging/globalExceptionFilter'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  const logger = app.get<LoggerService>('ILogger');
+
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalFilters(new GlobalExceptionFilter(logger));
   
   await app.listen(3000);
 }

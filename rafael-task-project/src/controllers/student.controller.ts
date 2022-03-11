@@ -11,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
 @Controller()
 export class StudentController 
 {
-  constructor(private commandBus: CommandBus, @Inject("ILogger") private logger : LoggerService) 
+  constructor(private commandBus: CommandBus) 
   {
 
   }
@@ -19,8 +19,6 @@ export class StudentController
   @Get("students/:universityId")
   async getStudentsByUniversityId(@Param() params): Promise<GetStudentsByUniversityIdResponse> 
   {
-    this.logger.error('test error');
-
     var query = new GetStudentsByUniversityIdQuery();
     query.universityId = params.universityId;
 
