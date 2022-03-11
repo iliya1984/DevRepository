@@ -7,11 +7,12 @@ import { CreateStudentRequest } from 'src/request-response/students/createStuden
 import { CreateStudentCommand } from 'src/handlers/students/createStudent/createStudent.command';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { IConfigurationService } from 'src/services/configuration/configuration.service.interface';
 
 @Controller()
 export class StudentController 
 {
-  constructor(private commandBus: CommandBus) 
+  constructor(private commandBus: CommandBus, @Inject('IConfigurationService') private readonly configurationService : IConfigurationService) 
   {
 
   }
@@ -19,6 +20,8 @@ export class StudentController
   @Get("students/:universityId")
   async getStudentsByUniversityId(@Param() params): Promise<GetStudentsByUniversityIdResponse> 
   {
+    var config = await this.configurationService.get();
+
     var query = new GetStudentsByUniversityIdQuery();
     query.universityId = params.universityId;
 

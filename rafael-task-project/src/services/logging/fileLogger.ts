@@ -1,8 +1,8 @@
 import { ConsoleLogger, Inject, LogLevel } from "@nestjs/common";
 import { promisify } from "util";
 import { readFile, writeFile, mkdirSync, existsSync, appendFile  }  from 'fs';
-import { IConfiguration } from "src/entities/configuration/configuration.interface";
 import { LogLevelTypes } from "src/entities/logging/logLevels";
+import { IConfigurationService } from "../configuration/configuration.service.interface";
 
 export class FileLogger extends ConsoleLogger
 {
@@ -11,11 +11,14 @@ export class FileLogger extends ConsoleLogger
 
     private filePath : string;
 
-    constructor(@Inject('IConfiguration') private readonly config : IConfiguration)
+    constructor(@Inject('IConfigurationService') private readonly configurationService : IConfigurationService)
     {
         super();
 
-        this.filePath = config.loggingDirectory;
+        configurationService.get().then(config =>
+        {
+            this.filePath = config.loggingDirectory;
+        });
     }
 
     public log(message: any, context?: string): void

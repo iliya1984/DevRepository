@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { CacheModule, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { StudentController } from './controllers/student.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetStudentsByUniversityIdQueryHandler } from './handlers/students/getByUniversityId/getStudentsByUniversityId.query.handler';
@@ -24,7 +24,7 @@ import { LoggerMiddleware } from './core/loggerMiddleware';
 import { FileLogger } from './services/logging/fileLogger';
 
 @Module({
-  imports: [CqrsModule, MongooseModule, ConfigModule.forRoot()],
+  imports: [CqrsModule, MongooseModule, ConfigModule.forRoot(), CacheModule.register()],
   controllers: [StudentController, UniversityController, EnrollmentController],
   providers: 
   [
@@ -40,22 +40,15 @@ import { FileLogger } from './services/logging/fileLogger';
       provide: 'IConfigurationService', 
       useClass: ConfigurationService 
     },
-    { 
-      provide: 'IConfiguration', 
-      useFactory : (configService: IConfigurationService) =>
-      {
-        return configService.get();
-      },
-      inject: ['IConfigurationService']
-    },
     {
       provide: 'DATABASE_CONNECTION',
-      useFactory: (configuration: IConfiguration): Promise<typeof mongoose> =>
+      useFactory: async (configurationService: IConfigurationService): Promise<typeof mongoose> =>
       {
+        var configuration = await configurationService.get();
         var connectionString = configuration.dbConnectionString + 'rafael-task-db';
         return mongoose.connect(connectionString);
       },
-      inject: ['IConfiguration']
+      inject: ['IConfigurationService']
     },
     {
       provide: 'StudentDocumentModel',

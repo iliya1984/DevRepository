@@ -2,5 +2,5 @@ import { IConfiguration } from "src/entities/configuration/configuration.interfa
 
 export interface IConfigurationService
 {
-    get() : IConfiguration;
+    get(): Promise<IConfiguration>;
 }
