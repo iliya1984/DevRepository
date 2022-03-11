@@ -3,7 +3,9 @@ Rafael task project Readme
 Deployment and run operations
 
 1 - Install nodejs + npm
+
 2 - Install mongodb server
+
 3 - (Optional) Install Mongodb Compass
 4 - Create "rafael-task-db" mongo database
 5 - Create "students" collection
