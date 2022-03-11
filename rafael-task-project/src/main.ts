@@ -1,7 +1,7 @@
 import { LoggerService, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { GlobalExceptionFilter } from './services/logging/globalExceptionFilter';
+import { GlobalExceptionFilter } from './core/globalExceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

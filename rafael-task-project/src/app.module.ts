@@ -20,7 +20,7 @@ import { ConfigurationService } from './services/configuration/configuration.ser
 import { IConfigurationService } from './services/configuration/configuration.service.interface';
 import { Configuration } from './entities/configuration/configuration';
 import { IConfiguration } from './entities/configuration/configuration.interface';
-import { LoggerMiddleware } from './services/logging/loggerMiddleware';
+import { LoggerMiddleware } from './core/loggerMiddleware';
 import { FileLogger } from './services/logging/fileLogger';
 
 @Module({
