@@ -1,12 +1,21 @@
-import { ConsoleLogger } from "@nestjs/common";
+import { ConsoleLogger, Inject } from "@nestjs/common";
 import { promisify } from "util";
 import { readFile, writeFile, mkdirSync, existsSync, appendFile  }  from 'fs';
+import { IConfiguration } from "src/entities/configuration/configuration.interface";
 
 export class FileLogger extends ConsoleLogger
 {
-    private filePath : string = 'C:\\logs';
     private fileName: string = 'logFile';
     private fileExtension: string = 'txt';
+
+    private filePath : string;
+
+    constructor(@Inject('IConfiguration') private readonly config : IConfiguration)
+    {
+        super();
+
+        this.filePath = config.loggingDirectory;
+    }
 
     public error(message: any, stack?: string, context?: string): void
     {

@@ -7,8 +7,9 @@ export class ConfigurationService implements IConfigurationService
     get(): IConfiguration
     {
         var configuration = new Configuration();
-        configuration.dbConnectionString = process.env.MongoDBServerPath;
-        
+        configuration.dbConnectionString = process.env.TempDBServerPath;
+        configuration.loggingDirectory = process.env.TempLogPath;
+
         return configuration;
     }
     
