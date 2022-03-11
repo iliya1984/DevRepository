@@ -18,6 +18,12 @@ export class FileLogger extends ConsoleLogger
         this.filePath = config.loggingDirectory;
     }
 
+    public log(message: any, context?: string): void
+    {
+        this.createLog(message, LogLevelTypes.Information, null, context);
+        super.log(message, context);
+    }
+
     public error(message: any, stack?: string, context?: string): void
     {
         this.createLog(message, LogLevelTypes.Error, stack, context);
