@@ -28,7 +28,7 @@ Deployment and run operations
 
 11 - Open project root directory with cd {Project_Dir} command
 
-12 - Run "git clone {repository_Url}" command 
+12 - Run "git clone https://github.com/iliya1984/DevRepository.git" command 
 
 13 - Run "npm install" command to install all packages
 
