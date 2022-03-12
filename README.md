@@ -28,11 +28,13 @@ Deployment and run operations
 
 11 - Open project root directory with cd {Project_Dir} command
 
-12 - Run "npm install" command to install all packages
+12 - Run "git clone {repository_Url}" command 
 
-13 - Run "npm run start:dev" command in order to run application
+13 - Run "npm install" command to install all packages
 
-14 - (Optional) Install fiddler
+14 - Run "npm run start:dev" command in order to run application
+
+15 - (Optional) Install fiddler
 
 
 
