@@ -13,9 +13,10 @@ Deployment and run operations
 9 - To view the code open project in VSCode IDE 
 10 - Run command line tool as Administrator
 11 - Open project root directory with cd {Project_Dir} command
-12 - Run "npm install" command to install all packages
-13 - Run "npm run start:dev" command in order to run application
-14 - (Optional) Install fiddler
+12 - Run "git clone https://github.com/iliya1984/DevRepository.git" command 
+13 - Run "npm install" command to install all packages
+14 - Run "npm run start:dev" command in order to run application
+15 - (Optional) Install fiddler
 
 You can use following HTTP request examples to test the application
 
